@@ -1,0 +1,32 @@
+{% extends 'layouts/layout.html' %}
+{% load static %}
+{% block title %}
+    Cihazı Güncelle
+{% endblock title %}
+{% block style %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-3 text-center"><h2>Cihaz Güncelle</h2></div>
+    <hr>
+    <div class="container w-75">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="container">{{ form.ip.label }}{{ form.ip }}</div>
+            <div class="container">{{ form.username.label }}{{ form.username }}</div>
+            <div class="container">{{ form.password.label }}{{ form.password }}</div>
+            <br>
+            <button type="submit" class="btn btn-warning mt-2">Komutu Güncelle</button>
+        </form>
+        {% if form.errors %}
+            <div class="alert alert-danger mt-2" role="alert">{{ form.errors }}</div>
+        {% endif %}
+        {% if error %}
+            <div class="alert alert-danger mt-2" role="alert">{{ error }}</div>
+        {% endif %}
+
+    </div>
+    <hr>
+{% endblock content %}
+<button class="btn btn-primary"></button>

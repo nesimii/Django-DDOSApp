@@ -1,0 +1,42 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}
+    Giriş Yap
+{% endblock title %}
+
+{% block content %}
+    <section>
+        <div class="container py-5">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class=" col-xl-4">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+
+                            <h3 class="mb-5">Giriş Ekranı</h3>
+                            <form method="post" novalidate>
+                                {% csrf_token %}
+
+                                {% for field in form %}
+                                    <div class="form-outline mb-4 {% if field.errors %}invalid{% endif %}">{{ field }}
+                                        {% if field.errors %}
+                                            <div class="alert alert-danger pb-0 mt-1">{{ field.errors }}</div>
+                                        {% endif %}
+                                    </div>
+
+                                {% endfor %}
+
+
+                                <button class="btn btn-warning btn-lg btn-block" type="submit">Giriş Yap</button>
+                            </form>
+                            {% for error in form.non_field_errors %}
+                                <div class="alert alert-danger mt-3">{{ error }}</div>
+                            {% endfor %}
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

@@ -1,0 +1,7 @@
+Django~=4.0.4
+paramiko~=2.10.4
+channels~=3.0.4
+channels_redis
+redis~=4.2.2
+asgiref~=3.5.0
+websocket_client

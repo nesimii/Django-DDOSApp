@@ -1,0 +1,27 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}
+    Cihazları Güncelle
+{% endblock title %}
+
+{% block content %}
+    <div class="container mt-3 text-center"><h2>Komutu Güncelle</h2></div>
+    <hr>
+    <div class="container w-75">
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            <div class="container">{{ form.title.label }}{{ form.title }}</div>
+            <div class="container">{{ form.commandText.label }}{{ form.commandText }}</div>
+            <div class="container">{{ form.bandwidth.label }}{{ form.bandwidth }}</div>
+            <br>
+            <button type="submit" class="btn btn-warning mt-2">Komutu Kaydet</button>
+        </form>
+        {% if form.errors %}
+            <div class="alert alert-danger mt-2" role="alert">{{ form.errors }}</div>
+        {% endif %}
+        {% if error %}
+            <div class="alert alert-danger mt-2" role="alert">{{ error }}</div>
+        {% endif %}
+    </div>
+    <hr>
+{% endblock content %}

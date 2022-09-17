@@ -1,0 +1,64 @@
+{% extends 'layouts/layout.html' %}
+{% load static %}
+{% block title %}
+    Cihaz Listesi
+{% endblock title %}
+{% block style %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-3 text-center"><h2>Cihaz Listesi</h2></div>
+    <hr>
+    <div class="container w-75">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="container">{{ form.ip.label }}{{ form.ip }}</div>
+            <div class="container">{{ form.username.label }}{{ form.username }}</div>
+            <div class="container">{{ form.password.label }}{{ form.password }}</div>
+            <br>
+            <button type="submit" class="btn btn-warning mt-2">Cihazı Kaydet</button>
+        </form>
+        {% if form.errors %}
+            <div class="alert alert-danger mt-2" role="alert">{{ form.errors }}</div>
+        {% endif %}
+        {% if error %}
+            <div class="alert alert-danger mt-2" role="alert">{{ error }}</div>
+        {% endif %}
+
+    </div>
+    <hr>
+
+
+    <section class="w-75 p-4 text-center ms-auto me-auto">
+        <table class="table" id="table-list">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">ip</th>
+                <th scope="col">kullanıcı adı</th>
+                <th scope="col">şifre</th>
+                <th scope="col">düzenle / sil</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for device in devices %}
+                <tr>
+                    <th scope="row">{{ device.id }}</th>
+                    <td>{{ device.ip }}</td>
+                    <td>{{ device.username }}</td>
+                    <td>{{ device.password }}</td>
+                    <td>
+                        <div class="me-auto">
+                            <a class="btn btn-primary" href="{% url 'editDevice' device.id %}">Düzenle</a>
+                            <a class="btn btn-danger ms-3" href="{% url 'deleteDevice' device.id %}">Sil</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+{% endblock content %}
+<button class="btn btn-primary"></button>

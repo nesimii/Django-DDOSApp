@@ -1,0 +1,57 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}
+    Komut Listesi
+{% endblock title %}
+
+{% block content %}
+    <div class="container mt-3 text-center"><h2>Komut Listesi</h2></div>
+    <hr>
+    <div class="container w-75">
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            <div class="container">{{ form.title.label }}{{ form.title }}</div>
+            <div class="container">{{ form.commandText.label }}{{ form.commandText }}</div>
+            <div class="container">{{ form.bandwidth.label }}{{ form.bandwidth }}</div>
+            <br>
+            <button type="submit" class="btn btn-warning mt-2">Komutu Kaydet</button>
+        </form>
+        {% if form.errors %}
+            <div class="alert alert-danger mt-2" role="alert">{{ form.errors }}</div>
+        {% endif %}
+        {% if error %}
+            <div class="alert alert-danger mt-2" role="alert">{{ error }}</div>
+        {% endif %}
+    </div>
+    <hr>
+
+    <section class="w-75 p-4 text-center ms-auto me-auto">
+        <table class="table">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Komut Başlığı</th>
+                <th scope="col">Komut Metni</th>
+                <th scope="col">Bant Genişliği - MB</th>
+                <th scope="col">düzenle / sil</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for command in commands %}
+                <tr>
+                    <th scope="row">{{ command.id }}</th>
+                    <td>{{ command.title }}</td>
+                    <td>{{ command.commandText }}</td>
+                    <td>{{ command.bandwidth }}</td>
+                    <td>
+                        <div class="me-auto">
+                            <a class="btn btn-primary" href="{% url 'editCommand' command.id %}">Düzenle</a>
+                            <a class="btn btn-danger ms-3" href="{% url 'deleteCommand' command.id %}">Sil</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock content %}

